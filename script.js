@@ -22,7 +22,7 @@ var removeLatLng = function(addresses) {
     delete address.latLng;
   });
 }
-var addAlternative = function(masters, targets) {
+var addNearest = function(masters, targets) {
   $.each(targets, function(i, target) {
     var distance = 0;
     var lastDistance = Number.MAX_VALUE;
@@ -31,7 +31,7 @@ var addAlternative = function(masters, targets) {
         distance = google.maps.geometry.spherical.computeDistanceBetween(target.latLng, master.latLng);
         if (distance < lastDistance) {
           lastDistance = distance;
-          target.alternative = master.address;
+          target.nearest = master.address;
         }
       }
     });
@@ -49,7 +49,7 @@ var main = function() {
     results.value = e;
   }
   $.when(addLatLng(referencesJSON), addLatLng(targetsJSON)).done(function() {
-    addAlternative(referencesJSON, targetsJSON);
+    addNearest(referencesJSON, targetsJSON);
     removeLatLng(targetsJSON);
     results.value = JSON.stringify(targetsJSON);
   })
