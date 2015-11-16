@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Nearest Postal Code Finder</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="col-sm-10 col-sm-offset-1">
+      <h1>Nearest Postal Code Finder</h1>
+      <div class="row">
+        <div class="col-xs-4">
+          <div class=" panel panel-default">
+            <div class="panel-body">
+              <h4>Reference Postal Codes</h4>
+              <textarea class="form-control" rows="24" id="reference"></textarea>
+              <h5 class="text-uppercase">Example</h5>
+              <textarea class="form-control" rows="5" id="reference" disabled>
+[
+  {"address":"1510064"},
+  {"address":"1500032"}
+  {"address":"1500042"}
+]
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class=" panel panel-default">
+            <div class="panel-body">
+              <h4>Target Postal Codes</h4>
+              <textarea class="form-control" rows="24" id="target"></textarea>
+              <h5 class="text-uppercase">Example</h5>
+              <textarea class="form-control" rows="5" id="reference" disabled>
+[
+  {"address":"1600005"},
+  {"address":"1620803"}
+  {"address":"1620817"}
+]
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-4">
+          <div class=" panel panel-default">
+            <div class="panel-body">
+              <h4>Results</h4>
+              <textarea class="form-control" rows="24" id="result"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <input class="btn btn-default" type="submit" value="Process" onClick="main()">
+        </div>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=geometry"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
