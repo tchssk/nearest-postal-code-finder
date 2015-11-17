@@ -2,18 +2,22 @@ var addLatLng = function(addresses) {
   var dfd = $.Deferred();
   var geocoder = new google.maps.Geocoder();
   var cnt = 0;
+  var time = 500;
   $.each(addresses, function(i, address) {
-    geocoder.geocode({
-      address: address.address
-    }, function(results, status) {
-      cnt++;
-      if (status == google.maps.GeocoderStatus.OK) {
-        address.latLng = results[0].geometry.location;
+    setTimeout(function() {
+      geocoder.geocode({
+        address: address.address
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          address.latLng = results[0].geometry.location;
+        }
+        cnt++;
         if (cnt === addresses.length) {
           dfd.resolve();
         }
-      }
-    });
+      });
+    }, time);
+    time += 500;
   });
   return dfd.promise();
 }
