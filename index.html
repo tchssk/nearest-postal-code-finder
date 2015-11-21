@@ -9,7 +9,12 @@
   </head>
   <body>
     <div class="col-sm-10 col-sm-offset-1">
-      <h1>Nearest Postal Code Finder</h1>
+      <div class="clearfix">
+        <h1>
+          Nearest Postal Code Finder
+          <input class="btn btn-default btn-lg pull-right" type="submit" value="Process" onClick="main()">
+        </h1>
+      </div>
       <div class="row">
         <div class="col-xs-4">
           <div class="panel panel-default">
@@ -62,9 +67,6 @@
               <textarea class="form-control" rows="24" id="result"></textarea>
             </div>
           </div>
-        </div>
-        <div class="col-xs-12">
-          <input class="btn btn-default" type="submit" value="Process" onClick="main()">
         </div>
       </div>
     </div>
