@@ -55,6 +55,6 @@ var main = function() {
   $.when(addLatLng(referencesJSON), addLatLng(targetsJSON)).done(function() {
     addNearest(referencesJSON, targetsJSON);
     removeLatLng(targetsJSON);
-    results.value = JSON.stringify(targetsJSON);
+    results.value = JSON.stringify(targetsJSON, null, '    ');
   })
 }
