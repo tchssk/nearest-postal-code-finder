@@ -9,7 +9,8 @@ var addLatLng = function(addresses) {
         address: address.address
       }, function(results, status) {
         if (status == google.maps.GeocoderStatus.OK) {
-          address.latLng = results[0].geometry.location;
+          address.lat = results[0].geometry.location.lat()
+          address.lng = results[0].geometry.location.lng()
         }
         cnt++;
         if (cnt === addresses.length) {
@@ -31,8 +32,10 @@ var addNearest = function(masters, targets) {
     var distance = 0;
     var lastDistance = Number.MAX_VALUE;
     $.each(masters, function(j, master) {
-      if (target.latLng != undefined && master.latLng != undefined) {
-        distance = google.maps.geometry.spherical.computeDistanceBetween(target.latLng, master.latLng);
+      if (target.lat != undefined && target.lng != undefined && master.lat != undefined && master.lng != undefined) {
+        var t = new google.maps.LatLng(target.lat, target.lng)
+        var m = new google.maps.LatLng(master.lat, master.lng)
+        distance = google.maps.geometry.spherical.computeDistanceBetween(t, m);
         if (distance < lastDistance) {
           lastDistance = distance;
           target.nearest = master.address;
