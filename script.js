@@ -53,6 +53,7 @@ var main = function() {
   var references = document.getElementById('reference');
   var targets = document.getElementById('target');
   var results = document.getElementById('result');
+  results.value = 'Now processing...';
   try {
     var referencesJSON = JSON.parse(references.value);
     var targetsJSON = JSON.parse(targets.value);
