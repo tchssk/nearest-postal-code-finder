@@ -24,7 +24,8 @@ var addLatLng = function(addresses) {
 }
 var removeLatLng = function(addresses) {
   $.each(addresses, function(i, address) {
-    delete address.latLng;
+    delete address.lat;
+    delete address.lng;
   });
 }
 var addNearest = function(masters, targets) {
