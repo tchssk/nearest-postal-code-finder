@@ -4,21 +4,25 @@ var addLatLng = function(addresses) {
   var cnt = 0;
   var time = 500;
   $.each(addresses, function(i, address) {
-    setTimeout(function() {
-      geocoder.geocode({
-        address: address.address
-      }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          address.lat = results[0].geometry.location.lat()
-          address.lng = results[0].geometry.location.lng()
-        }
-        cnt++;
-        if (cnt === addresses.length) {
-          dfd.resolve();
-        }
-      });
-    }, time);
-    time += 500;
+    if (address.lat != undefined && address.lng != undefined) {
+      cnt++;
+    } else {
+      setTimeout(function() {
+        geocoder.geocode({
+          address: address.address
+        }, function(results, status) {
+          if (status == google.maps.GeocoderStatus.OK) {
+            address.lat = results[0].geometry.location.lat()
+            address.lng = results[0].geometry.location.lng()
+          }
+          cnt++;
+          if (cnt === addresses.length) {
+            dfd.resolve();
+          }
+        });
+      }, time);
+      time += 500;
+    }
   });
   return dfd.promise();
 }
