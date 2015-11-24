@@ -1,30 +1,23 @@
-var addLatLng = function(addresses) {
-  var dfd = $.Deferred();
+var addLatLng = function(address) {
+  var d = $.Deferred();
   var geocoder = new google.maps.Geocoder();
-  var cnt = 0;
-  var time = 500;
-  $.each(addresses, function(i, address) {
-    if (address.lat != undefined && address.lng != undefined) {
-      cnt++;
-    } else {
-      setTimeout(function() {
-        geocoder.geocode({
-          address: address.address
-        }, function(results, status) {
-          if (status == google.maps.GeocoderStatus.OK) {
-            address.lat = results[0].geometry.location.lat()
-            address.lng = results[0].geometry.location.lng()
-          }
-          cnt++;
-          if (cnt === addresses.length) {
-            dfd.resolve();
-          }
-        });
-      }, time);
-      time += 500;
-    }
-  });
-  return dfd.promise();
+  if (address.lat != undefined && address.lng != undefined) {
+    d.resolve();
+  } else {
+    setTimeout(function() {
+      geocoder.geocode({
+        address: address.address
+      }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          address.lat = results[0].geometry.location.lat()
+          address.lng = results[0].geometry.location.lng()
+          d.resolve();
+        }
+        d.reject(status);
+      });
+    }, 1000);
+  }
+  return d.promise();
 }
 var removeLatLng = function(addresses) {
   $.each(addresses, function(i, address) {
@@ -61,11 +54,28 @@ var main = function() {
   catch (e) {
     results.value = e;
   }
-  $.when(addLatLng(referencesJSON), addLatLng(targetsJSON)).done(function() {
+  var d = (new $.Deferred()).resolve();
+  $.each(referencesJSON, function(i, address) {
+    d = d.then(function() {
+      return addLatLng(address);
+    })
+  });
+  d.then(function() {
     references.value = JSON.stringify(referencesJSON, null, '    ');
+  });
+  $.each(targetsJSON, function(i, address) {
+    d = d.then(function() {
+      return addLatLng(address);
+    })
+  });
+  d.then(function() {
     targets.value = JSON.stringify(targetsJSON, null, '    ');
     addNearest(referencesJSON, targetsJSON);
     removeLatLng(targetsJSON);
     results.value = JSON.stringify(targetsJSON, null, '    ');
-  })
+  }, function(status) {
+    references.value = JSON.stringify(referencesJSON, null, '    ');
+    targets.value = JSON.stringify(targetsJSON, null, '    ');
+    results.value = status
+  });
 }
